@@ -1,0 +1,57 @@
+# AION OS - Real AI Integration Build
+# Links against actual TensorFlow Lite libraries
+
+# TensorFlow Lite paths
+TFLITE_DIR = /usr/local/lib/tensorflow-lite
+TFLITE_INCLUDE = $(TFLITE_DIR)/include
+TFLITE_LIB = $(TFLITE_DIR)/lib
+
+# Compiler flags with TFLite
+CFLAGS_AI = $(CFLAGS) -I$(TFLITE_INCLUDE) -DUSE_REAL_TFLITE
+LDFLAGS_AI = -L$(TFLITE_LIB) -ltensorflow-lite -ldl -lpthread -lm
+
+# AI source files
+AI_SOURCES = \
+    kernel/ai/ml/tflite_real.c \
+    kernel/ai/nlp/bert_engine.c \
+    userland/ai-ide/code_completion_real.c
+
+AI_OBJECTS = $(AI_SOURCES:.c=.o)
+
+# Build AI components
+ai: $(AI_OBJECTS)
+	@echo "Building AI components with real TensorFlow Lite..."
+	$(CC) $(CFLAGS_AI) -c kernel/ai/ml/tflite_real.c -o build/tflite_real.o
+	$(CC) $(CFLAGS_AI) -c kernel/ai/nlp/bert_engine.c -o build/bert_engine.o
+	$(CC) $(CFLAGS_AI) -c userland/ai-ide/code_completion_real.c -o build/code_completion.o
+
+# Link with AI libraries
+kernel-ai: ai $(KERNEL_OBJECTS)
+	$(LD) $(LDFLAGS) $(LDFLAGS_AI) -o $(KERNEL_BIN) $(KERNEL_OBJECTS) $(AI_OBJECTS)
+
+# Download and build TensorFlow Lite
+setup-tflite:
+	@echo "Downloading TensorFlow Lite..."
+	mkdir -p $(TFLITE_DIR)
+	git clone --depth 1 https://github.com/tensorflow/tensorflow.git /tmp/tensorflow
+	cd /tmp/tensorflow && \
+		./tensorflow/lite/tools/make/download_dependencies.sh && \
+		./tensorflow/lite/tools/make/build_lib.sh
+	cp -r /tmp/tensorflow/tensorflow/lite/tools/make/gen/linux_x86_64/lib/* $(TFLITE_LIB)/
+	cp -r /tmp/tensorflow/tensorflow/lite/c $(TFLITE_INCLUDE)/
+	@echo "TensorFlow Lite installed to $(TFLITE_DIR)"
+
+# Download pre-trained models
+setup-models:
+	@echo "Downloading AI models..."
+	mkdir -p models/
+	# Download MobileBERT (small BERT for mobile/embedded)
+	wget https://storage.googleapis.com/tfhub-lite-models/tensorflow/lite-model/mobilebert/1/default/1.tflite \
+		-O models/mobilebert.tflite
+	# Download CodeBERT for code understanding
+	wget https://huggingface.co/microsoft/codebert-base/resolve/main/pytorch_model.bin \
+		-O models/codebert.bin
+	# Convert to TFLite (would need conversion script)
+	@echo "Models downloaded to models/"
+
+.PHONY: ai kernel-ai setup-tflite setup-models
