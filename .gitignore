@@ -1,0 +1,97 @@
+# AION OS - Git Ignore File
+
+# Build directories
+build/
+iso/
+*.iso
+*.bin
+*.o
+*.a
+*.so
+*.out
+obj/
+*.d
+
+# CMake files
+CMakeFiles/
+CMakeCache.txt
+cmake_install.cmake
+Makefile
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+*.lock
+
+# OS Generated Files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Debug and test files
+*.log
+*.dump
+*.core
+*.gdb
+*.gdbinit
+
+# Dependencies
+vendor/
+_thirdparty/
+external/
+
+# User-specific files
+*.user
+*.userosx
+*.userprefs
+
+# Compiler and linker temporary files
+*.tmp
+*.temp
+*.ilk
+*.iobj
+*.ipdb
+
+# Package manager files
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Compiled files
+*.exe
+*.dll
+*.dylib
+*.pyc
+__pycache__/
+
+# Sensitive files (API keys, passwords, etc.)
+*.key
+*.pem
+*.crt
+*.cert
+.env
+config/secrets.*
+
+# Documentation build
+docs/_build/
+*.pdf
+*.epub
+
+# QEMU/VirtualBox
+*.vdi
+*.vmdk
+*.qcow2
+*.vhd
+
+# Project-specific
+aion-os.iso
+boot/stage1/boot.asm.bak
+kernel/build/
+userspace/build/

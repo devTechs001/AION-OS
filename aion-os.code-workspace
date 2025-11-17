@@ -1,0 +1,42 @@
+{
+    "folders": [
+        {
+            "name": "AION-OS",
+            "path": "/home/darkhat/general-projects/AION-OS"
+        }
+    ],
+    "settings": {
+        "C_Cpp.default.compilerPath": "/usr/bin/x86_64-linux-gnu-gcc",
+        "C_Cpp.default.cppStandard": "c++17",
+        "C_Cpp.default.cStandard": "c11",
+        "C_Cpp.default.intelliSenseMode": "linux-gcc-x64",
+        "cmake.configureOnOpen": true,
+        "makefile.configureOnOpen": true,
+        "files.associations": {
+            "*.h": "c",
+            "*.c": "c",
+            "*.cpp": "cpp",
+            "*.asm": "nasm",
+            "*.nasm": "nasm",
+            "*.s": "arm",
+            "*.ld": "cpp"
+        },
+        "C_Cpp.errorSquiggles": "Enabled",
+        "editor.rulers": [
+            80
+        ],
+        "files.trimTrailingWhitespace": true,
+        "files.insertFinalNewline": true
+    },
+    "extensions": {
+        "recommendations": [
+            "ms-vscode.cpptools",
+            "ms-vscode.cmake-tools",
+            "twxs.cmake",
+            "ms-vscode.makefile-tools",
+            "llvm-vs-code-extensions.vscode-clangd",
+            "vadimcn.vscode-lldb",
+            "ms-vscode.hexeditor"
+        ]
+    }
+}
